@@ -40,7 +40,7 @@
 
       <div class="form">
         <label for="numRf">Numero de celular</label>
-        <input type="text" class="form-control" id="numRf" placeholder="Cedula" v-model="datos.numRf">
+        <input type="text" class="form-control" id="numRf" placeholder="celular" v-model="datos.numRf">
         <div v-if="error.numRf" style="color: red">
           {{error.numRf}}
         </div>
@@ -56,7 +56,7 @@
 
       <div class="form">
         <label for="numRf2">Numero de celular</label>
-        <input type="text" class="form-control" id="numRf2" placeholder="Cedula" v-model="datos.numRf2">
+        <input type="text" class="form-control" id="numRf2" placeholder="celular" v-model="datos.numRf2">
         <div v-if="error.numRf2" style="color: red">
           {{error.numRf2}}
         </div>
@@ -93,7 +93,7 @@ export default {
       this.error.pass = null
 
       if(this.datos.cedula === '1000361984'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '2018-06-16'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "JAVIER ESTIVEN DIAZ ROJAS");
@@ -101,7 +101,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '1022986361'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '2014-02-03'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "CRISTIAN ALEXANDER BERNAL NARAHONA");
@@ -109,7 +109,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '51932298'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '2009-12-19'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "MARTHA JANETH ROJAS GONZALEZ");
@@ -117,7 +117,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '1018504523'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '1996-07-06'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "JULIETH ANGELICA DIAZ ROJAS");
@@ -125,7 +125,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '79806838'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '1989-09-29'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "JOSE JAVIER DIAZ LEON");
@@ -133,7 +133,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '1001300872'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '2017-05-13'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "KAREN LISETH DIAZ ROJAS");
@@ -141,7 +141,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '1030641582'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '1999-01-13'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "JEIMY GISELLA DIAZ ROJAS");
@@ -149,7 +149,7 @@ export default {
         return this.$router.push({ name: 'Home' })
       }
       if(this.datos.cedula === '19865452'){
-        if (this.datos.fecha !== '2021-04-21'){
+        if (this.datos.fecha !== '1999-10-23'){
           return this.error.fecha = 'No es su fecha de expedición'
         }
         sessionStorage.setItem("nombre", "DIEGO ANDRES BERNAL BARAHONA");
