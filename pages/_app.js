@@ -1,8 +1,4 @@
-import '../styles/brujulacoop.scss'
-import Home from "./index";
+import App from 'next/app'
+import '../assets/scss/brujulacoop.scss';
 
-export default function App() {
-    return (
-       <Home/>
-    )
-}
+export default App
