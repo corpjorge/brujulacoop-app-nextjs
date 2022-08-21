@@ -7,19 +7,11 @@
                         <div class="section-title">
                             <h3 class="mb-25 wow fadeInUp" data-wow-delay=".2s">¿Cómo participar? </h3>
                             <p class="mb-30 wow fadeInUp" data-wow-delay=".4s">
-                                Responde las preguntas de manera correcta y participa girando la máquina de premios. Ganaras cuando se alineen nuestros logos.
+                                Ganaras cuando se alineen nuestros logos.
                             </p>
                         </div>
                         <div class="content">
-                            <div class="single-item">
-                                <div class="icon">
-                                    <i class="lni lni-pencil-alt"></i>
-                                </div>
-                                <div class="text">
-                                    <h6 class="mb-10">Preguntas</h6>
-                                    <p>Selecciona la respuesta correcta en cada pregunta.</p>
-                                </div>
-                            </div>
+
                             <div class="single-item">
                                 <div class="icon">
                                     <i class="lni lni-medall"></i>
@@ -30,7 +22,9 @@
                                 </div>
                             </div>
 
-                            <button @click="next" class="button button-lg radius-10 btn-block" type="button" style="cursor: pointer;">¡Empezar a Jugar!</button>
+                            <button @click="next" class="button button-lg radius-10 btn-block" type="button"
+                                    style="cursor: pointer;">¡Empezar a Jugar!
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -44,11 +38,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "List",
     methods: {
-        next(){
-            this.$router.push({ name: 'Questions' })
+        async next() {
+            await axios.post('/finish', this.responses)
+            await window.location.assign("/slots")
         }
     }
 }
