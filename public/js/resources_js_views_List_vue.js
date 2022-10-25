@@ -87,7 +87,8 @@ var _hoisted_1 = {
   "class": "about-section about-style-1",
   style: {
     "background": "#e2e2e2",
-    "padding": "100px 0 140px"
+    "padding": "100px 0 140px",
+    "height": "1100px"
   }
 };
 var _hoisted_2 = {

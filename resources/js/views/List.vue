@@ -1,5 +1,5 @@
 <template>
-    <section id="about" class="about-section about-style-1" style="background: #e2e2e2; padding: 100px 0 140px;">
+    <section id="about" class="about-section about-style-1" style="background: #e2e2e2; padding: 100px 0 140px; height: 1100px;">
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 offset-xl-7 col-lg-6 offset-lg-6">
