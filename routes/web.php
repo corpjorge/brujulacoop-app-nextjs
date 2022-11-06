@@ -1,12 +1,24 @@
 <?php
 
 use App\Http\Controllers\Auth;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SlotsController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\WinnerController;
 use Illuminate\Support\Facades\Route;
 
+Route::prefix('admin')->group(function () {
+    Route::get('login', [LoginController::class, 'index'])->name('admin.login');
+    Route::post('signin', [LoginController::class, 'signin'])->name('admin.signin');
 
+    Route::group(['middleware' => 'auth'], function () {
+        Route::resource('surveys', SurveyController::class)
+            ->names('admin.surveys');
+        Route::post('signout', [LoginController::class, 'signout'])
+            ->name('admin.signout');
+    });
+});
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/me', [Auth::class, 'user']);
@@ -23,15 +35,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/pants', [WinnerController::class, 'participants']);
     Route::post('/set', [WinnerController::class, 'setTurn']);
 
-    Route::get('/concurso', function () {  return view('welcome'); });
+    Route::get('/concurso', function () {
+        return view('welcome');
+    });
     Route::get('/slots', [SlotsController::class, 'slots']);
 
     Route::get('/temp', [Auth::class, 'temp']);
-
 });
 
 Route::get('/locked', [WinnerController::class, 'locked']);
 
-Route::get('/', function () {  return redirect('/login'); });
-
-
+Route::get('/', function () {
+    return redirect('/login');
+});
