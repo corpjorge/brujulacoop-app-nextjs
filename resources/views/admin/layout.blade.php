@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ruleta::Admin</title>
 
-    <link rel="stylesheet" href="/assets/css/bootstrap-5.0.0-alpha-2.min.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="{{ asset('skins/alert/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('skins/css/global.css') }}">
 </head>
@@ -17,14 +17,14 @@
         @if(Auth::user())
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="#">Admin::Ruleta</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Encuestas</a>
+                            <a class="nav-link" href="{{ route('admin.surveys.index') }}">Encuestas</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Usuarios</a>
@@ -48,7 +48,8 @@
     </main>
 
     <!-- JavaScript Bundle with Popper -->
-    <script src="/assets/js/bootstrap.5.0.0.alpha-2-min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('skins/datatable/jquery.min.js') }}"></script>
     <script src="{{ asset('skins/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('skins/datatable/dataTables.bootstrap4.min.js') }}"></script>
