@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             QuestionSeeder::class,
             UserSeeder::class,
-            GiftSeeder::class
+            GiftSeeder::class,
+            SurveyQuestionTypeSeeder::class,
         ]);
     }
 }
