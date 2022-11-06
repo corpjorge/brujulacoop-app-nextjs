@@ -26,5 +26,17 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        DB::table('users')->insert([
+            'id' => 2,
+            'name' => 'Luis Alberto Ruiz Sarmiento',
+            'email' => 'alberto@evolucionamos.com',
+            'document' => '123123',
+            'locked' => '',
+            'new' => '',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'role' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }
