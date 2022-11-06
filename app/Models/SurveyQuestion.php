@@ -11,7 +11,7 @@ class SurveyQuestion extends Model
 
     protected $fillable = [
         'survey_id',
-        'survey_question_type_id',
+        'question_type_id',
         'question',
         'order',
         'is_active',
