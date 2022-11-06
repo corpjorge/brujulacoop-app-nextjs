@@ -12,5 +12,8 @@ class SurveyOption extends Model
     protected $fillable = [
         'survey_question_id',
         'response',
+        'order',
+        'its_conditional',
+        'is_active',
     ];
 }

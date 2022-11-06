@@ -15,7 +15,14 @@ class CreateSurveyOptionsTable extends Migration
     {
         Schema::create('survey_options', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('survey_question_id');
+            $table->string('response');
+            $table->smallInteger('order');
+            $table->boolean('its_conditional')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+
+            $table->foreign('survey_question_id')->references('id')->on('survey_questions');
         });
     }
 
