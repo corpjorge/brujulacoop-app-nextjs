@@ -5,3 +5,47 @@
 .btn-logout {
     width: 125px;
 }
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cdcdcd;
+    margin-bottom: 10px;
+}
+.admin-title {
+    font-size: 20px;
+}
+/*====================================================
+======================= INPUT ========================
+====================================================*/
+.row-input {
+    margin-bottom: 15px;
+}
+.row-input input[type="file"] {
+    width: 100%;
+}
+.row-input a {
+    color: var(--yellow);
+}
+.row-input a:hover {
+    color: var(--yellow);
+}
+select.form-control {
+    background-color: #fff;
+    border-color: #ced4da;
+    border-width: 1px;
+    border-radius: 5px;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+select.form-control:focus {
+    outline: none;
+}
+.btn-block {
+    width: 100%;
+}
