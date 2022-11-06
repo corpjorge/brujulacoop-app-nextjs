@@ -12,6 +12,7 @@ class Survey extends Model
     use Sluggable;
 
     protected $fillable = [
+        'survey_option_id',
         'name',
         'slug',
         'description',

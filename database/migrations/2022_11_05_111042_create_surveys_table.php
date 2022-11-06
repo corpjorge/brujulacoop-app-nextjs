@@ -15,6 +15,7 @@ class CreateSurveysTable extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('survey_option_id')->nullable(true);
             $table->string('name');
             $table->string('slug')->unique(true);
             $table->text('description')->nullable(true);
