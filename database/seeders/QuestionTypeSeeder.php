@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\SurveyQuestionType;
+use App\Models\QuestionType;
 use Illuminate\Database\Seeder;
 
-class SurveyQuestionTypeSeeder extends Seeder
+class QuestionTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +14,10 @@ class SurveyQuestionTypeSeeder extends Seeder
      */
     public function run()
     {
-        SurveyQuestionType::create([
+        QuestionType::create([
             'name' => 'Selección múltiple',
         ]);
-        SurveyQuestionType::create([
+        QuestionType::create([
             'name' => 'Respuesta abierta',
         ]);
     }
