@@ -13,10 +13,12 @@ Route::prefix('admin')->group(function () {
     Route::post('signin', [LoginController::class, 'signin'])->name('admin.signin');
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::resource('surveys', SurveyController::class)
-            ->names('admin.surveys');
         Route::post('signout', [LoginController::class, 'signout'])
             ->name('admin.signout');
+        Route::get('surveys/datatable', [SurveyController::class, 'datatable'])
+            ->name('admin.surveys.datatable');
+        Route::resource('surveys', SurveyController::class)
+            ->names('admin.surveys');
     });
 });
 
