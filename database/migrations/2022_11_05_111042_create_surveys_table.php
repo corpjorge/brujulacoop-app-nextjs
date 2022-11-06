@@ -15,6 +15,12 @@ class CreateSurveysTable extends Migration
     {
         Schema::create('surveys', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('slug')->unique(true);
+            $table->text('description')->nullable(true);
+            $table->smallInteger('attempts')->default(1);
+            $table->integer('order')->default(1);
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
