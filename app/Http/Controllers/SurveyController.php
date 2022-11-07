@@ -29,8 +29,7 @@ class SurveyController extends Controller
             })
             ->addColumn('actions', function ($row) {
                 $routeEdit = route('admin.surveys.edit', $row);
-                // $routeDestroy = route('activities.destroy', $row);
-                // $deleteMessage = "You are going to erase the activity: {$row->english_name}";
+                $questions = route('admin.questions.index', $row);
 
                 return "
                     <div class='dropdown'>
@@ -39,6 +38,7 @@ class SurveyController extends Controller
                         </button>
                         <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
                             <li><a class='dropdown-item' href='{$routeEdit}'>Editar</a></li>
+                            <li><a class='dropdown-item' href='{$questions}'>Preguntas</a></li>
                         </ul>
                     </div>
                 ";

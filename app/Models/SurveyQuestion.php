@@ -16,4 +16,9 @@ class SurveyQuestion extends Model
         'order',
         'is_active',
     ];
+
+    public function questionType()
+    {
+        return $this->belongsTo(QuestionType::class);
+    }
 }
