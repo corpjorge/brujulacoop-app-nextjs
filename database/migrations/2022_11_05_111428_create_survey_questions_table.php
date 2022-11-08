@@ -15,6 +15,7 @@ class CreateSurveyQuestionsTable extends Migration
     {
         Schema::create('survey_questions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('option_id')->nullable(true);
             $table->unsignedBigInteger('survey_id');
             $table->unsignedBigInteger('question_type_id');
             $table->string('question');

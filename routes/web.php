@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\SlotsController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveyOptionController;
 use App\Http\Controllers\SurveyQuestionController;
 use App\Http\Controllers\WinnerController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::prefix('admin')->group(function () {
             ->name('admin.questions.datatable');
         Route::resource('surveys/{survey}/survey-questions', SurveyQuestionController::class)
             ->names('admin.questions');
+        Route::get('survey-questions/{survey_question}/survey-options/datatable', [SurveyOptionController::class, 'datatable'])
+            ->name('admin.options.datatable');
+        Route::resource('survey-questions/{survey_question}/survey-options', SurveyOptionController::class)
+            ->names('admin.options');
     });
 });
 

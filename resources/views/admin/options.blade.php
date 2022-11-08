@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="admin-header">
-                <h1 class="admin-title">Preguntas: {{ $survey->name }}</h1>
-                <a href="{{ route('admin.questions.create', $survey) }}" class="btn btn-small btn-primary">Nueva pregunta</a>
+                <h1 class="admin-title">Opciones: {{ $surveyQuestion->question }}</h1>
+                <a href="{{ route('admin.options.create', $surveyQuestion) }}" class="btn btn-small btn-primary">Nueva opción</a>
             </div>
             <x-status-alert />
             <div class="table-responsive-md">
@@ -13,8 +13,8 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Pregunta</th>
-                            <th>Tipo</th>
+                            <th>Respuesta</th>
+                            <th>Condicionada</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -31,19 +31,19 @@
         oTable = $('#table').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "{{ route('admin.questions.datatable', $survey) }}",
+            "ajax": "{{ route('admin.options.datatable', $surveyQuestion) }}",
             "pageLength": 50,
             "columns": [{
                     data: 'id',
                     name: 'id'
                 },
                 {
-                    data: 'question',
-                    name: 'question'
+                    data: 'response',
+                    name: 'response'
                 },
                 {
-                    data: 'type',
-                    name: 'type'
+                    data: 'its_conditional',
+                    name: 'its_conditional'
                 },
                 {
                     data: 'status',

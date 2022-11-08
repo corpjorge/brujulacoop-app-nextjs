@@ -10,6 +10,7 @@ class SurveyQuestion extends Model
     use HasFactory;
 
     protected $fillable = [
+        'option_id',
         'survey_id',
         'question_type_id',
         'question',
@@ -20,5 +21,10 @@ class SurveyQuestion extends Model
     public function questionType()
     {
         return $this->belongsTo(QuestionType::class);
+    }
+
+    public function surveyOptions()
+    {
+        return $this->hasMany(SurveyOption::class);
     }
 }

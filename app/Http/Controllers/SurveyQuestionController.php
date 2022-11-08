@@ -39,7 +39,7 @@ class SurveyQuestionController extends Controller
                     'survey' => $row->survey_id,
                     'survey_question' => $row->id
                 ]);
-                // $questions = route('admin.questions.index', $row);
+                $options = route('admin.options.index', $row);
                 $actions = "
                     <div class='dropdown'>
                         <button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton1' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -51,7 +51,7 @@ class SurveyQuestionController extends Controller
 
                 if ($row->question_type_id === 1) {
                     $actions .= "
-                            <li><a class='dropdown-item' href='{$routeEdit}'>Respuestas</a></li>
+                            <li><a class='dropdown-item' href='{$options}'>Opciones</a></li>
                     ";
                 }
 
