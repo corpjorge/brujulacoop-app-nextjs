@@ -60,3 +60,6 @@ Route::get('/locked', [WinnerController::class, 'locked']);
 Route::get('/', function () {
     return redirect('/login');
 });
+
+Route::get('surveys/first-active', [SurveyController::class, 'firstActive'])
+    ->name('surveys.first-active');
