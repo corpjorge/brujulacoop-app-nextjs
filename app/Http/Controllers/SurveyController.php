@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SurveyResource;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -124,5 +125,12 @@ class SurveyController extends Controller
     public function destroy(Survey $survey)
     {
         //
+    }
+
+    public function firstActive()
+    {
+        $first = Survey::where('is_active', true)->orderBy('order', 'ASC')->first();
+
+        return new SurveyResource($first);
     }
 }
