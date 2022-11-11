@@ -12,7 +12,6 @@ class Survey extends Model
     use Sluggable;
 
     protected $fillable = [
-        'survey_option_id',
         'name',
         'slug',
         'description',
@@ -34,5 +33,10 @@ class Survey extends Model
     public function surveyQuestions()
     {
         return $this->hasMany(SurveyQuestion::class);
+    }
+
+    public function surveyAnswers()
+    {
+        return $this->hasMany(SurveyAnswer::class);
     }
 }
