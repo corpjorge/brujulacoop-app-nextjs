@@ -127,10 +127,24 @@ class SurveyController extends Controller
         //
     }
 
-    public function firstActive()
+    public function surveys()
     {
-        $first = Survey::where('is_active', true)->orderBy('order', 'ASC')->first();
+        return view('surveys');
+    }
 
-        return new SurveyResource($first);
+    public function firstActive(Request $request)
+    {
+        $user = $request->user();
+        $first = Survey::where('is_active', true)->orderBy('order', 'ASC')->first();
+        $participation = 0;
+
+        if ($user) {
+            $participation = $user->surveyAnswers()->count();
+        }
+
+        return response()->json([
+            'survey' => new SurveyResource($first),
+            'participation' => $participation,
+        ], 200);
     }
 }
