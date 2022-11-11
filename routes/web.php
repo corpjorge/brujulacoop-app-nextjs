@@ -61,5 +61,6 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('surveys', [SurveyController::class, 'surveys']);
 Route::get('surveys/first-active', [SurveyController::class, 'firstActive'])
     ->name('surveys.first-active');
