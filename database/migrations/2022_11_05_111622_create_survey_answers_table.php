@@ -18,6 +18,8 @@ class CreateSurveyAnswersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->longText('responses');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
