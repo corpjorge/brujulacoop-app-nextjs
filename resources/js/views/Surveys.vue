@@ -59,8 +59,19 @@
                         <div class="about-content-wrapper" v-else>
                             <h4 class="mb-2">{{ survey.name }}</h4>
                             <form id="survey-form">
-                                <template v-for="question in survey.questions">
-                                    <div class="row-question">
+                                <template
+                                    v-for="(question,
+                                    index) in survey.questions"
+                                >
+                                    <div
+                                        :class="
+                                            'row-question ' +
+                                                (question.option_id
+                                                    ? 'hidden'
+                                                    : '')
+                                        "
+                                        :id="'question-' + question.id"
+                                    >
                                         <p class="question">
                                             {{ question.question }}
                                         </p>
@@ -76,6 +87,13 @@
                                                         type="radio"
                                                         :name="question.id"
                                                         :value="option.response"
+                                                        @change="
+                                                            onChange(
+                                                                index,
+                                                                question,
+                                                                option
+                                                            )
+                                                        "
                                                     />
                                                     <label
                                                         :for="
@@ -92,10 +110,19 @@
                                                 :name="question.id"
                                                 rows="4"
                                                 class="form-control"
+                                                @input="
+                                                    e => onChangeText(e, index)
+                                                "
                                             ></textarea>
                                         </div>
                                     </div>
                                 </template>
+                                <button
+                                    class="button button-lg radius-10 btn-block"
+                                    @click="onSubmit"
+                                >
+                                    Enviar
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -135,6 +162,56 @@ export default {
         },
         surveyStart() {
             this.showQuestions = true;
+        },
+        onChange(index, questionSelected, option) {
+            const itsConditional = questionSelected.options.find(
+                item => item.its_conditional
+            );
+
+            if (itsConditional && itsConditional.id === option.id) {
+                document
+                    .getElementById(`question-${itsConditional.question_id}`)
+                    .classList.remove("hidden");
+            } else if (itsConditional) {
+                document
+                    .getElementById(`question-${itsConditional.question_id}`)
+                    .classList.add("hidden");
+            }
+
+            const question = {
+                id: questionSelected.id,
+                question: questionSelected.question,
+                option_id: questionSelected.option_id,
+                response: option.response
+            };
+
+            this.responses[index] = question;
+        },
+        onChangeText(e, index) {
+            const questionSelected = this.survey.questions[index];
+            const question = {
+                id: questionSelected.id,
+                question: questionSelected.question,
+                option_id: questionSelected.option_id,
+                response: e.target.value
+            };
+            this.responses[index] = question;
+        },
+        async onSubmit(e) {
+            e.preventDefault();
+            const minResponses = this.survey.questions.filter(
+                item => !item.option_id
+            );
+            const responses = this.responses.filter(item => !item.option_id);
+
+            if (minResponses.length === responses.length) {
+                await axios.post(`/surveys/${this.survey.id}`, { responses });
+                window.location.assign("/slots");
+            } else {
+                alert(
+                    "Debes contestar todas las preguntas para poder participar."
+                );
+            }
         }
     }
 };
@@ -193,5 +270,8 @@ export default {
 }
 .option input[type="radio"]:checked + label {
     border: 2px solid #0086db;
+}
+.row-question.hidden {
+    display: none;
 }
 </style>
