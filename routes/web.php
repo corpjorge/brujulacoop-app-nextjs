@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/slots', [SlotsController::class, 'slots']);
 
     Route::get('/temp', [Auth::class, 'temp']);
+
+    Route::post('surveys/{survey}', [SurveyController::class, 'storeAnswers'])->name('surveys.storeAnswers');
 });
 
 Route::get('/locked', [WinnerController::class, 'locked']);
