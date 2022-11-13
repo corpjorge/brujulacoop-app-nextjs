@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\SurveyResource;
 use App\Models\Survey;
+use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -146,5 +147,20 @@ class SurveyController extends Controller
             'survey' => new SurveyResource($first),
             'participation' => $participation,
         ], 200);
+    }
+
+    public function storeAnswers(Request $request, Survey $survey)
+    {
+        $responses = $request['responses'];
+
+        SurveyAnswer::create([
+            'user_id' => $request->user()->id,
+            'survey_id' => $survey->id,
+            'responses' => json_encode($responses),
+        ]);
+
+        return response()->json([
+            'message' => 'La participación ha sido guardada',
+        ], 201);
     }
 }
