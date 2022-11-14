@@ -109,14 +109,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   return !item.option_id;
                 });
 
-                if (!(minResponses.length === responses.length)) {
+                if (!(responses.length >= minResponses.length)) {
                   _context.next = 9;
                   break;
                 }
 
                 _context.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/surveys/".concat(_this2.survey.id), {
-                  responses: responses
+                  responses: _this2.responses
                 });
 
               case 6:
