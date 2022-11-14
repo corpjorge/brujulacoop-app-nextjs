@@ -204,8 +204,10 @@ export default {
             );
             const responses = this.responses.filter(item => !item.option_id);
 
-            if (minResponses.length === responses.length) {
-                await axios.post(`/surveys/${this.survey.id}`, { responses });
+            if (responses.length >= minResponses.length) {
+                await axios.post(`/surveys/${this.survey.id}`, {
+                    responses: this.responses
+                });
                 window.location.assign("/slots");
             } else {
                 alert(
