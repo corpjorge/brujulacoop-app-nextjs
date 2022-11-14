@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SurveyAnswersExport;
 use App\Http\Resources\SurveyResource;
 use App\Models\Survey;
 use App\Models\SurveyAnswer;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class SurveyController extends Controller
@@ -31,6 +33,7 @@ class SurveyController extends Controller
             })
             ->addColumn('actions', function ($row) {
                 $routeEdit = route('admin.surveys.edit', $row);
+                $routeExport = route('admin.surveys.export', $row);
                 $questions = route('admin.questions.index', $row);
 
                 return "
@@ -40,7 +43,8 @@ class SurveyController extends Controller
                         </button>
                         <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
                             <li><a class='dropdown-item' href='{$routeEdit}'>Editar</a></li>
-                            <li><a class='dropdown-item' href='{$questions}'>Preguntas</a></li>
+                            <li><a class='dropdown-item' href='{$questions}'>Ver Preguntas</a></li>
+                            <li><a class='dropdown-item' href='{$routeExport}'>Exportar respuestas</a></li>
                         </ul>
                     </div>
                 ";
@@ -162,5 +166,10 @@ class SurveyController extends Controller
         return response()->json([
             'message' => 'La participación ha sido guardada',
         ], 201);
+    }
+
+    public function export(Survey $survey)
+    {
+        return Excel::download(new SurveyAnswersExport($survey->id), "{$survey->slug}.xlsx");
     }
 }
