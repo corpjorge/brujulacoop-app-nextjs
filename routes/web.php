@@ -21,6 +21,8 @@ Route::prefix('admin')->group(function () {
             ->name('admin.surveys.datatable');
         Route::resource('surveys', SurveyController::class)
             ->names('admin.surveys');
+        Route::get('surveys/{survey}/export', [SurveyController::class, 'export'])
+            ->name('admin.surveys.export');
         Route::get('surveys/{survey}/survey-questions/datatable', [SurveyQuestionController::class, 'datatable'])
             ->name('admin.questions.datatable');
         Route::resource('surveys/{survey}/survey-questions', SurveyQuestionController::class)
@@ -54,7 +56,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/temp', [Auth::class, 'temp']);
 
-    Route::post('surveys/{survey}', [SurveyController::class, 'storeAnswers'])->name('surveys.storeAnswers');
+    Route::post('surveys/{survey}', [SurveyController::class, 'storeAnswers'])
+        ->name('surveys.storeAnswers');
 });
 
 Route::get('/locked', [WinnerController::class, 'locked']);
