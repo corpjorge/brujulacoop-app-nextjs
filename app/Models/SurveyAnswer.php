@@ -14,4 +14,9 @@ class SurveyAnswer extends Model
         'survey_id',
         'responses',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
