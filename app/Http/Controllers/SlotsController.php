@@ -25,7 +25,7 @@ class SlotsController extends Controller
             return redirect('/');
         }
 
-        auth()->user()->update(['go' => null]);
+        // auth()->user()->update(['go' => null]);
 
         $exists = Winner::where('user_id', auth()->user()->id)->exists();
 
