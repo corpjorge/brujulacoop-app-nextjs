@@ -49,7 +49,7 @@ class SurveyQuestionController extends Controller
                             <li><a class='dropdown-item' href='{$routeEdit}'>Editar</a></li>
                 ";
 
-                if ($row->question_type_id === 1) {
+                if ($row->question_type_id === 1 || $row->question_type_id === 3) {
                     $actions .= "
                             <li><a class='dropdown-item' href='{$options}'>Opciones</a></li>
                     ";
