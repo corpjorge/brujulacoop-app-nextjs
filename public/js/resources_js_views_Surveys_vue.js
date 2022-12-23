@@ -26,11 +26,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -64,23 +66,78 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.showQuestions = true;
     },
     onChange: function onChange(index, questionSelected, option) {
-      var itsConditional = questionSelected.options.find(function (item) {
+      var _this2 = this;
+
+      var itsConditional = questionSelected.options.filter(function (item) {
         return item.its_conditional;
       });
+      console.log(questionSelected.id);
+      console.log(index);
+      console.log(option);
+      var responses = [];
 
-      if (itsConditional && itsConditional.id === option.id) {
-        document.getElementById("question-".concat(itsConditional.question_id)).classList.remove("hidden");
-      } else if (itsConditional) {
-        document.getElementById("question-".concat(itsConditional.question_id)).classList.add("hidden");
+      if (questionSelected.type === 1) {
+        var questionIsAdded = this.responses.find(function (question) {
+          return question && questionSelected && question.id === questionSelected.id;
+        });
+        console.log(questionIsAdded);
+
+        if (questionIsAdded && (0,vue__WEBPACK_IMPORTED_MODULE_2__.isProxy)(questionIsAdded)) {
+          questionIsAdded = (0,vue__WEBPACK_IMPORTED_MODULE_2__.toRaw)(questionIsAdded);
+          responses = questionIsAdded.responses;
+        }
+
+        var ifAdded = responses.find(function (item) {
+          return item.id === option.id;
+        });
+
+        if (ifAdded) {
+          responses = responses.filter(function (item) {
+            return item.id !== option.id;
+          });
+        } else {
+          responses.push({
+            id: option.id,
+            response: option.response
+          });
+        }
+
+        itsConditional.forEach(function (item) {
+          if (item.id === option.id && !ifAdded) {
+            _this2.onRemoveClassList("question-".concat(item.question_id), "hidden");
+          } else if (ifAdded) {
+            _this2.onAddClassList("question-".concat(item.question_id), "hidden");
+          }
+        });
+      }
+
+      if (questionSelected.type === 3) {
+        responses = [{
+          id: option.id,
+          response: option.response
+        }];
+        itsConditional.forEach(function (item) {
+          if (item.id === option.id) {
+            _this2.onRemoveClassList("question-".concat(item.question_id), "hidden");
+          } else {
+            _this2.onAddClassList("question-".concat(item.question_id), "hidden");
+          }
+        });
       }
 
       var question = {
         id: questionSelected.id,
         question: questionSelected.question,
         option_id: questionSelected.option_id,
-        response: option.response
+        responses: responses
       };
       this.responses[index] = question;
+    },
+    onRemoveClassList: function onRemoveClassList(id, className) {
+      document.getElementById(id).classList.remove(className);
+    },
+    onAddClassList: function onAddClassList(id, className) {
+      document.getElementById(id).classList.add(className);
     },
     onChangeText: function onChangeText(e, index) {
       var questionSelected = this.survey.questions[index];
@@ -93,41 +150,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.responses[index] = question;
     },
     onSubmit: function onSubmit(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var minResponses, responses;
+        var minResponses, responses, dataResponses;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 e.preventDefault();
-                minResponses = _this2.survey.questions.filter(function (item) {
+                minResponses = _this3.survey.questions.filter(function (item) {
                   return !item.option_id;
                 });
-                responses = _this2.responses.filter(function (item) {
+                responses = _this3.responses.filter(function (item) {
                   return !item.option_id;
                 });
 
                 if (!(responses.length >= minResponses.length)) {
-                  _context.next = 9;
+                  _context.next = 10;
                   break;
                 }
 
-                _context.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/surveys/".concat(_this2.survey.id), {
-                  responses: _this2.responses
+                dataResponses = _this3.responses.filter(function (item) {
+                  return item;
+                });
+                _context.next = 7;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("/surveys/".concat(_this3.survey.id), {
+                  responses: dataResponses
                 });
 
-              case 6:
+              case 7:
                 window.location.assign("/slots");
-                _context.next = 10;
+                _context.next = 11;
                 break;
 
-              case 9:
+              case 10:
                 alert("Debes contestar todas las preguntas para poder participar.");
 
-              case 10:
+              case 11:
               case "end":
                 return _context.stop();
             }
@@ -253,10 +313,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       id: 'question-' + question.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.question), 1
     /* TEXT */
-    ), question.type === 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(question.options, function (option) {
+    ), question.type === 1 || question.type === 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(question.options, function (option) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         id: 'radio-' + option.id,
-        type: "radio",
+        type: question.type === 3 ? 'radio' : 'checkbox',
         name: question.id,
         value: option.response,
         onChange: function onChange($event) {
@@ -264,7 +324,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         }
       }, null, 40
       /* PROPS, HYDRATE_EVENTS */
-      , ["id", "name", "value", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+      , ["id", "type", "name", "value", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
         "for": 'radio-' + option.id
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.response), 9
       /* TEXT, PROPS */
@@ -305,7 +365,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.id, "\n.survey-content[data-v-3f7f040a] {\n    width: 100%;\n    height: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n}\n.survey-content .container[data-v-3f7f040a],\n.survey-content .row[data-v-3f7f040a],\n.container-questions[data-v-3f7f040a] {\n    height: 100%;\n}\n.container-questions .about-content-wrapper[data-v-3f7f040a] {\n    max-height: 600px;\n    overflow-y: auto;\n}\n.survey-content .preloader[data-v-3f7f040a] {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n.content-questions[data-v-3f7f040a] {\n    position: relative;\n}\n.row-question[data-v-3f7f040a] {\n    border-bottom: 1px solid #ced4da;\n    padding: 0 20px 20px;\n    margin-bottom: 20px;\n}\n.question[data-v-3f7f040a] {\n    font-weight: 700;\n}\n.option[data-v-3f7f040a] {\n    display: flex;\n    justify-content: flex-start;\n    align-items: center;\n}\n.option input[data-v-3f7f040a] {\n    display: none;\n}\n.option label[data-v-3f7f040a] {\n    width: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: flex-start;\n    padding: 10px;\n    border-radius: 10px;\n    margin-bottom: 5px;\n    border: 2px solid #ced4da;\n}\n.option input[type=\"radio\"]:checked + label[data-v-3f7f040a] {\n    border: 2px solid #0086db;\n}\n.row-question.hidden[data-v-3f7f040a] {\n    display: none;\n}\n", ""]);
+exports.push([module.id, "\n.survey-content[data-v-3f7f040a] {\n    width: 100%;\n    height: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n}\n.survey-content .container[data-v-3f7f040a],\n.survey-content .row[data-v-3f7f040a],\n.container-questions[data-v-3f7f040a] {\n    height: 100%;\n}\n.container-questions .about-content-wrapper[data-v-3f7f040a] {\n    max-height: 600px;\n    overflow-y: auto;\n}\n.survey-content .preloader[data-v-3f7f040a] {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n.content-questions[data-v-3f7f040a] {\n    position: relative;\n}\n.row-question[data-v-3f7f040a] {\n    border-bottom: 1px solid #ced4da;\n    padding: 0 20px 20px;\n    margin-bottom: 20px;\n}\n.question[data-v-3f7f040a] {\n    font-weight: 700;\n}\n.option[data-v-3f7f040a] {\n    display: flex;\n    justify-content: flex-start;\n    align-items: center;\n}\n.option input[data-v-3f7f040a] {\n    display: none;\n}\n.option label[data-v-3f7f040a] {\n    width: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: flex-start;\n    padding: 10px;\n    border-radius: 10px;\n    margin-bottom: 5px;\n    border: 2px solid #ced4da;\n}\n.option input[type=\"radio\"]:checked + label[data-v-3f7f040a],\n.option input[type=\"checkbox\"]:checked + label[data-v-3f7f040a] {\n    border: 2px solid #0086db;\n}\n.row-question.hidden[data-v-3f7f040a] {\n    display: none;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
