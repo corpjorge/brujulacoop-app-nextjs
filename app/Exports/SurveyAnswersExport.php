@@ -57,8 +57,17 @@ class SurveyAnswersExport implements FromArray
                     }
                 );
                 $filtered_arr = array_values($filtered_arr);
-                $userResponse = $filtered_arr && isset($filtered_arr[0]) ? $filtered_arr[0]->response : "";
-                array_push($row, $userResponse);
+                // dd($filtered_arr);
+                $textResponse = "";
+                if ($filtered_arr && isset($filtered_arr[0]) && isset($filtered_arr[0]->response)) {
+                    $textResponse = $filtered_arr[0]->response;
+                } else if ($filtered_arr && isset($filtered_arr[0]) && isset($filtered_arr[0]->responses)) {
+                    foreach ($filtered_arr[0]->responses as $userResponse) {
+                        $textResponse .= "{$userResponse->response}; ";
+                    }
+                }
+                // $userResponse = $filtered_arr && isset($filtered_arr[0]) ? $filtered_arr[0]->response : "";
+                array_push($row, $textResponse);
             }
 
             $response[] = $row;
