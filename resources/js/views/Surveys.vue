@@ -75,7 +75,12 @@
                                         <p class="question">
                                             {{ question.question }}
                                         </p>
-                                        <div v-if="question.type === 1">
+                                        <div
+                                            v-if="
+                                                question.type === 1 ||
+                                                    question.type === 3
+                                            "
+                                        >
                                             <template
                                                 v-for="option in question.options"
                                             >
@@ -84,7 +89,11 @@
                                                         :id="
                                                             'radio-' + option.id
                                                         "
-                                                        type="radio"
+                                                        :type="
+                                                            question.type === 3
+                                                                ? 'radio'
+                                                                : 'checkbox'
+                                                        "
                                                         :name="question.id"
                                                         :value="option.response"
                                                         @change="
@@ -134,6 +143,7 @@
 
 <script>
 import axios from "axios";
+import { isProxy, toRaw } from "vue";
 
 export default {
     name: "Surveys",
@@ -164,28 +174,84 @@ export default {
             this.showQuestions = true;
         },
         onChange(index, questionSelected, option) {
-            const itsConditional = questionSelected.options.find(
+            const itsConditional = questionSelected.options.filter(
                 item => item.its_conditional
             );
 
-            if (itsConditional && itsConditional.id === option.id) {
-                document
-                    .getElementById(`question-${itsConditional.question_id}`)
-                    .classList.remove("hidden");
-            } else if (itsConditional) {
-                document
-                    .getElementById(`question-${itsConditional.question_id}`)
-                    .classList.add("hidden");
+            console.log(questionSelected.id);
+            console.log(index);
+            console.log(option);
+
+            let responses = [];
+
+            if (questionSelected.type === 1) {
+                let questionIsAdded = this.responses.find(
+                    question =>
+                        question &&
+                        questionSelected &&
+                        question.id === questionSelected.id
+                );
+                console.log(questionIsAdded);
+                if (questionIsAdded && isProxy(questionIsAdded)) {
+                    questionIsAdded = toRaw(questionIsAdded);
+                    responses = questionIsAdded.responses;
+                }
+
+                let ifAdded = responses.find(item => item.id === option.id);
+
+                if (ifAdded) {
+                    responses = responses.filter(item => item.id !== option.id);
+                } else {
+                    responses.push({
+                        id: option.id,
+                        response: option.response
+                    });
+                }
+                itsConditional.forEach(item => {
+                    if (item.id === option.id && !ifAdded) {
+                        this.onRemoveClassList(
+                            `question-${item.question_id}`,
+                            "hidden"
+                        );
+                    } else if (ifAdded) {
+                        this.onAddClassList(
+                            `question-${item.question_id}`,
+                            "hidden"
+                        );
+                    }
+                });
+            }
+            if (questionSelected.type === 3) {
+                responses = [{ id: option.id, response: option.response }];
+                itsConditional.forEach(item => {
+                    if (item.id === option.id) {
+                        this.onRemoveClassList(
+                            `question-${item.question_id}`,
+                            "hidden"
+                        );
+                    } else {
+                        this.onAddClassList(
+                            `question-${item.question_id}`,
+                            "hidden"
+                        );
+                    }
+                });
             }
 
             const question = {
                 id: questionSelected.id,
                 question: questionSelected.question,
                 option_id: questionSelected.option_id,
-                response: option.response
+                responses
             };
 
             this.responses[index] = question;
+        },
+        onRemoveClassList(id, className) {
+            document.getElementById(id).classList.remove(className);
+        },
+        onAddClassList(id, className) {
+            document.getElementById(id).classList.add(className);
         },
         onChangeText(e, index) {
             const questionSelected = this.survey.questions[index];
@@ -205,8 +271,9 @@ export default {
             const responses = this.responses.filter(item => !item.option_id);
 
             if (responses.length >= minResponses.length) {
+                const dataResponses = this.responses.filter(item => item);
                 await axios.post(`/surveys/${this.survey.id}`, {
-                    responses: this.responses
+                    responses: dataResponses
                 });
                 window.location.assign("/slots");
             } else {
@@ -270,7 +337,8 @@ export default {
     margin-bottom: 5px;
     border: 2px solid #ced4da;
 }
-.option input[type="radio"]:checked + label {
+.option input[type="radio"]:checked + label,
+.option input[type="checkbox"]:checked + label {
     border: 2px solid #0086db;
 }
 .row-question.hidden {
